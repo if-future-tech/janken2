@@ -1,7 +1,10 @@
+
 function play() {
+    $("#select").html('<button id="Lbtn">こうげき</button><button id="Cbtn">ぼうぎょ</button><button id="Rbtn">にげだす</button>');
+
     // ボタン要素を取得
     const $btn1 = $("#Lbtn");
-    const $btn2 = $("#Cbtn");
+    const $btn2 = $("#Fbtn");
     const $btn3 = $("#Rbtn");
 
     // 結果表示要素を取得
@@ -17,18 +20,27 @@ function play() {
         const bot = Math.floor(Math.random() * 3); // ランダム関数でBOTの手を決定
         const sum = bot; // 合計を計算
         if (sum === 0) {
-            $result.text("アウト！");
-            out ++;
+            $result.text("はじいた！");
             value = $("#progressbar").progressbar("value");
             if (value >= 10) {
                 value -= 10;
                 $("#progressbar").progressbar("value", value);
             } else {
-                $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
+                $("#select").html('<button id="Lbtn" disabled>こうげき</button><button id="Cbtn" disabled>ぼうぎょ</button><button id="Rbtn" disabled>にげだす</button>');
             }
-        } else {
-            $result.text("セーフ！");
+        } else if (sum === 1) {
+            $result.text("かわした！");
             safe ++;
+        } else {
+            $result.text("ダメージ！");
+            value = $("#progressbar").progressbar("value");
+            if (value >= 10) {
+                value -= 20;
+                $("#progressbar").progressbar("value", value);
+            } else {
+                $("#select").html('<button id="Lbtn" disabled>こうげき</button><button id="Cbtn" disabled>ぼうぎょ</button><button id="Rbtn" disabled>にげだす</button>');
+            }
+            out ++;
         }
         total ++;
         let O_rate = out / total * 100;
@@ -37,7 +49,7 @@ function play() {
         let $S_result = $("#S_rate");
         $O_result.text(`着弾率：${O_rate.toFixed(2)}%`);//小数点以下2桁まで
         $S_result.text(`回避率：${S_rate.toFixed(2)}%`);
-        if (total >= 10) {
+        if (total >= 3) {
             $("#enemy").html('');
             $("#msg").html('<p class="blink">敵は恐れをなして逃げていった！</p>');
             $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
@@ -47,9 +59,17 @@ function play() {
     $btn2.on('click', () => {
         const bot = Math.floor(Math.random() * 3);
         const sum = bot + 1;
-        if (sum === 2) {
-            $result.text("アウト！");
-            out ++;
+        if (sum === 1) {
+            $result.text("ダメージ！");
+            value = $("#progressbar").progressbar("value");
+            if (value >= 10) {
+                value -= 20;
+                $("#progressbar").progressbar("value", value);
+            } else {
+                $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
+            }
+        } else if (sum === 2) {
+            $result.text("はじいた！");
             value = $("#progressbar").progressbar("value");
             if (value >= 10) {
                 value -= 10;
@@ -58,7 +78,7 @@ function play() {
                 $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
             }
         } else {
-            $result.text("セーフ！");
+            $result.text("かわした！");
             safe ++;
         }
         total ++;
@@ -68,7 +88,7 @@ function play() {
         let $S_result = $("#S_rate");
         $O_result.text(`着弾率：${O_rate.toFixed(2)}%`);//小数点以下2桁まで
         $S_result.text(`回避率：${S_rate.toFixed(2)}%`);
-        if (total >= 10) {
+        if (total >= 3) {
             $("#enemy").html('');
             $("#msg").html('<p class="blink">敵は恐れをなして逃げていった！</p>');
             $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
@@ -76,34 +96,6 @@ function play() {
     });
 
     $btn3.on('click', () => {
-        const bot = Math.floor(Math.random() * 3);
-        const sum = bot + 2;
-        if (sum === 4) {
-            $result.text("アウト！");
-            out ++;
-            value = $("#progressbar").progressbar("value");
-            if (value >= 10) {
-                value -= 10;
-                $("#progressbar").progressbar("value", value);
-            } else {
-                $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
-            }
-        } else {
-            $result.text("セーフ！");
-            safe ++;
-        }
-        total ++;
-        let O_rate = out / total * 100;
-        let S_rate = safe / total * 100;
-        let $O_result = $("#O_rate");
-        let $S_result = $("#S_rate");
-        $O_result.text(`着弾率：${O_rate.toFixed(2)}%`);//小数点以下2桁まで
-        $S_result.text(`回避率：${S_rate.toFixed(2)}%`);
-
-        if (total >= 10) {
-            $("#enemy").html('');
-            $("#msg").html('<p class="blink">敵は立ち去った！</p>');
-            $("#select").html('<button id="Lbtn" disabled>左方</button><button id="Cbtn" disabled>中間</button><button id="Rbtn" disabled>右方</button>');
-        }
+        return;
     });
 }

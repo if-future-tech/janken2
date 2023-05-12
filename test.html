@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="assets/script.js" type="text/javascript"></script>
+    <title>不思議なダンジョン</title>
+</head>
+<body>
+    <header id="p-overlay">
+        <div id="p-content">
+          <!-- ここにポリシーやプロローグを追加 -->
+            <p>　∞マルチバースへようこそ。ここから先は、あなたの行動が世界の運行に影響を与え、選択した結果によって未来が変わります。
+                つまり、良くも悪くもバタフライ効果のオンパレード状態ですので、どうかご自重ください。<br><br>
+                ※なお“JavaScript”はこの世界におけるエネルギー源ですので、常にオンの状態をオススメします。それではお楽しみください。また『音量』にご注意ください。
+                <button id="close-btn"><span class="vertical-text">閉じる</span></button></p>
+        </div>
+        <div id="dialog"><audio><source src="assets/dragon.mp3" type="audio/mpeg" repeat="auto"></audio></div>
+    </header>
+    <main>
+        <section><button id="button">あなたの体力</button><div id="progressbar"></div></section>
+        <section id="enemy" style="max-height: 600px; text-align: center; margin:0 auto;"><img src="assets/dungeon.jpg" alt=""></section>
+        <section id="msg" style="text-align: center; margin:0 auto;"><p>見知らぬ土地でダンジョンに迷い込んだ、どっちに行こうかな？</p></section>
+        <section id="select" style="display: flex; justify-content: space-evenly; align-items: center; margin: auto;"></section>
+    </main>
+
+    <script>
+        let HP = 100;
+        $("#close-btn").on("click", function() {//注意書きが閉じられたら
+            $("#dialog audio")[0].play();
+            //ランダムで敵・アイテム・空っぽの部屋に行きつく。
+            let rooms = ['enemy', 'item', 'empty'];
+            let currentRoom = rooms[Math.floor(Math.random() * rooms.length)];
+            let turn = 0;
+
+            for (let turn = 0; turn < 81; index++) {
+                if (turn > 0 && HP > 0) {
+                    $(document).ready(function() {
+                        let hurdle = 0;
+                        let cleared = false;
+                        //敵を倒すかアイテムを取ると空っぽの部屋になって先に進める。
+                        if (currentRoom === 'enemy') {// 戦闘処理
+                            hurdle = 3;
+                            play ()
+                            if (hurdle <= 0) {// 敵を倒した場合の処理
+                                cleared = true;
+                                currentRoom = 'empty';
+                            }
+                        } else if (currentRoom === 'item') {//アイテム取得処理
+                            HP = HP + 30;
+                            cleared = true;
+                            currentRoom = 'empty';
+                        }
+
+                        $('#left').click(function() {// 左に進む処理
+                            turn = trun + 2;
+                        });
+                        $('#front').click(function() {// 正面に進む処理
+                            turn = trun + 1;
+                        });
+                        $('#right').click(function() {// 右に進む処理
+                            turn = trun + 0;
+                        });
+                        if (turn >= 81) {
+                            alert("ダンジョンから抜け出せた");
+                            turn = 0;
+                        }
+                    });
+                } else if (HP <= 0) {
+                    $("#select").html('<ul class="btn-list"><li id="Lbtn" disabled>左方</li><li id="Fbtn" disabled>前方</li><li id="Rbtn" disabled>右方</li>');
+                    $("#msg").html('<p class="blink">触れぬものに　祟りあらずと　語られし　ことわりをいま　実感せし</p>');
+                    $("body").css({
+                        "background-image": "url(assets/gameover.png)",
+                        "background-size": "cover"
+                    });
+                }
+                // 空っぽの部屋の場合、進行方向を選択するUIを表示する
+                $("#select").html('<ul class="btn-list"><li id="Lbtn">左方</li><li id="Fbtn">前方</li><li id="Rbtn">右方</li>');
+            }
+        });
+
+        const closePolicyButton = document.getElementById('close-btn');
+        const policyOverlay = document.getElementById('p-overlay');
+        closePolicyButton.addEventListener('click', function() {
+        policyOverlay.style.display = 'none'; // ポリシーを非表示にする
+
+        });
+    </script>
+<!--     <ul class="btn-list">
+        <li>ボタン1</li>
+        <li>ボタン2</li>
+        <li>ボタン3</li>
+      </ul>
+ --><style>
+        .btn-list {
+        list-style-type: none; /* マーカーを非表示にする */
+        margin: 0;
+        padding: 0;
+      }
+
+      .ntn-list li {
+        display: inline-block; /* ブロック要素からインライン要素に変更する */
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #ccc;
+        color: #fff;
+        cursor: pointer;
+        margin-right: 10px; /* ボタン間の余白を設定する */
+      }
+
+        #p-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #p-content {
+            max-width: 80%;
+            max-height: 80%;
+            overflow: auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            writing-mode: vertical-rl; /* 縦書きにする */
+            /* text-orientation: upright; 縦書きのとき、英字を正しい向きにする */
+            display: flex; /* flexboxを使用する */
+            justify-content: center; /* 横方向の中央揃え */
+            align-items: flex-end; /* 縦方向の下揃え */
+        }
+
+        .vertical-btn {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #ccc;
+            color: #fff;
+            cursor: pointer;
+
+        }
+
+        .vertical-text {
+            text-align: right;
+            writing-mode: vertical-rl; /* 縦書きにする */
+            text-orientation: upright; /* 縦書きの文字を正しい向きにする */
+        }
+        #close-button { margin-top: 10px; }
+
+        .ui-progressbar-value { background-color: green; /* プログレスバーの色 */}
+        .blink { animation: blinker 1s linear infinite; }
+
+        @keyframes blinker {
+            50% {
+            opacity: 0;
+            }
+        }
+    </style>
+</body>
+</html>

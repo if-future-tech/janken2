@@ -1,5 +1,5 @@
 /*ポリシー設定*/
-#policy-overlay {
+#p-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -12,7 +12,7 @@
     align-items: center;
 }
 
-#policy-content {
+#p-content {
     max-width: 80%;
     max-height: 80%;
     overflow: auto;
@@ -41,4 +41,31 @@
     writing-mode: vertical-rl; /* 縦書きにする */
     text-orientation: upright; /* 縦書きの文字を正しい向きにする */
 }
-#close-button { margin-top: 10px; }
+#close-btn { margin-top: 10px; }
+
+/* ボタン装飾 */
+.btn-list {
+    list-style-type: none; /* マーカーを非表示にする */
+    margin: 0;
+    padding: 0;
+}
+
+.btn-list li {
+    display: inline-block; /* ブロック要素からインライン要素に変更する */
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #ccc;
+    cursor: pointer;
+    margin-right: 10px; /* ボタン間の余白を設定する */
+}
+
+/* 体力ゲージ */
+.ui-progressbar-value { background-color: green; /* プログレスバーの色 */}
+.blink { animation: blinker 1s linear infinite; }
+
+@keyframes blinker {
+    50% {
+    opacity: 0;
+    }
+}
