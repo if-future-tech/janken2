@@ -71,15 +71,15 @@
                     HP = HP - 10;
                     cleared = true;
                     currentRoom = 'empty';
-                    turn ++; turn ++;
+                    console.log(turn);
                     next();
                 } else if (currentRoom === 'item') {
                     HP = HP + 10;
                     cleared = true;
                     currentRoom = 'empty';
-                    turn ++;
+                    console.log(turn);
                     next();
-                } else  if (currentRoom === 'empty' || cleared) {
+                } else  if (currentRoom === 'empty') {
                     next();
                 }
 
